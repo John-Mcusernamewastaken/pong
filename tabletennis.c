@@ -10,11 +10,11 @@
 #include <pthread.h>
 #include <time.h>
 #include "vector2.h"
-#include "pong.h"
+#include "tabletennis.h"
 
 
 //SDL
-#define WINDOW_TITLE        		"Pong: 0 - 0"
+#define WINDOW_TITLE        		"Tabletennis: 0 - 0"
 #define SDL_FAILURE_CODE    		-1
 #define SURFACE_FLAGS       		0
 #define SURFACE_WIDTH       		100
@@ -273,12 +273,12 @@ void score_point(vector2 **ballVelocity, point2 **ballCoords, int *scoring)
 	
 	//update scoreboard
 	//6 = len "65536\0"
-	//21 = len "Pong: 65536 - 65536\0"
+	//21 = len "Tabletennis: 65536 - 65536\0"
 	char first[6], second[6]; 
 	sprintf(first, "%i", rightPoints);
 	sprintf(second, "%i", leftPoints);
 	
-	char buf[21]; sprintf(buf, "Pong: %s - %s", first, second);
+	char buf[21]; sprintf(buf, "Tabletennis: %s - %s", first, second);
 	SDL_SetWindowTitle(window, buf);
 
     //reset ball coords
