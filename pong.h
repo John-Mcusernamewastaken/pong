@@ -1,5 +1,5 @@
-#ifndef TETPONG_H
-    #define TETPONG_H
+#ifndef PONG_H
+    #define PONG_H
     void setup_sdl(SDL_Window **window, SDL_Surface **surface);
     void move_paddle(int direction, point2 **paddleCoords);
     void ai_move(double ballVelocityX, point2 **ballCoords, point2 **paddleCoords, int* cmdStore);

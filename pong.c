@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <time.h>
 #include "vector2.h"
-#include "header.h"
+#include "pong.h"
 
 
 //SDL
@@ -51,7 +51,7 @@
 #define PADDLE_HEIGHT       		1000
 #define PADDLE_LEFT_COLOR   		COLOR_RED
 #define PADDLE_RIGHT_COLOR  		COLOR_BLUE
-#define PADDLE_LEFT_IS_AI   		false
+#define PADDLE_LEFT_IS_AI   		true
 #define PADDLE_RIGHT_IS_AI  		true
 
 //ball properties
@@ -186,14 +186,14 @@ int APIENTRY WinMain(HINSTANCE a, HINSTANCE b, LPSTR c, int d)
 
     //left paddle
     paddleLeft = malloc(sizeof(point2));
-        paddleLeft->x = PADDLE_EDGE_GAP;
-        paddleLeft->y = LOGICAL_RESOLUTION_Y/2;
+	paddleLeft->x = PADDLE_EDGE_GAP;
+	paddleLeft->y = LOGICAL_RESOLUTION_Y/2;
     leftPoints = 0; 
 
     //ball
     ballCoords = malloc(sizeof(point2));
-        ballCoords->x = BALL_INITIAL_COORDS_X;
-        ballCoords->y = BALL_INITIAL_COORDS_Y;
+	ballCoords->x = BALL_INITIAL_COORDS_X;
+	ballCoords->y = BALL_INITIAL_COORDS_Y;
     ballVelocity = malloc(sizeof(vector2));
 	
 	//ball goes in random X direction with 50/50 odds
@@ -205,8 +205,8 @@ int APIENTRY WinMain(HINSTANCE a, HINSTANCE b, LPSTR c, int d)
 
     //right paddle
     paddleRight = malloc(sizeof(point2));
-        paddleRight->x = LOGICAL_RESOLUTION_X-PADDLE_EDGE_GAP;
-        paddleRight->y = LOGICAL_RESOLUTION_Y/2;
+	paddleRight->x = LOGICAL_RESOLUTION_X-PADDLE_EDGE_GAP;
+	paddleRight->y = LOGICAL_RESOLUTION_Y/2;
     rightPoints = 0;
     
     game_continue = true;
@@ -317,10 +317,10 @@ void ball_bounce_paddle(vector2 **ballVelocity)
     //invert ball X velocity with random variance in angle
 	//generate new angle
 	double angle = (double)((
-		(*ballVelocity)->x<0? //if the ball is moving right
-			((rand() % (BOUNCE_MAXARC-1-BOUNCE_MINARC))+BOUNCE_MINARC): //between min and max angle on right
-			((rand() % (BOUNCE_MINARC-1-BOUNCE_MAXARC))+360-BOUNCE_MAXARC) //else between min and max on left
-		)-90)*(M_PI/180); //remove 90 degree offset and convert to radians
+		(*ballVelocity)->x<0 ? //if the ball is moving right
+		((rand() % (BOUNCE_MAXARC-1-BOUNCE_MINARC))+BOUNCE_MINARC): //between min and max angle on right
+		((rand() % (BOUNCE_MINARC-1-BOUNCE_MAXARC))+360-BOUNCE_MAXARC) //else between min and max on left
+	)-90)*(M_PI/180); //remove 90 degree offset and convert to radians
 
 	//overwrite ball velocity
 	set_vector_with_angle_magnitude(ballVelocity,angle,get_magnitude(ballVelocity));
@@ -365,8 +365,8 @@ void draw_paddle(SDL_Surface **surface, point2 **paddle, Uint32 paddleColor)
 {
     //instantiate rect for drawing
     SDL_Rect *rect = malloc(sizeof(SDL_Rect));
-        rect->h = transform_value(PADDLE_HEIGHT, LOGICAL_RESOLUTION_Y, WINDOW_HEIGHT);
-        rect->w = transform_value(PADDLE_WIDTH, LOGICAL_RESOLUTION_X, WINDOW_WIDTH);
+	rect->h = transform_value(PADDLE_HEIGHT, LOGICAL_RESOLUTION_Y, WINDOW_HEIGHT);
+	rect->w = transform_value(PADDLE_WIDTH, LOGICAL_RESOLUTION_X, WINDOW_WIDTH);
     //get display coords
     rect->x = transform_value((*paddle)->x-PADDLE_WIDTH/2, LOGICAL_RESOLUTION_X, WINDOW_WIDTH);
     rect->y = transform_value((*paddle)->y-PADDLE_HEIGHT/2, LOGICAL_RESOLUTION_Y, WINDOW_HEIGHT);
